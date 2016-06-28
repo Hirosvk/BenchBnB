@@ -41,3 +41,33 @@ request.open("POST", "./api/benches", true);
 request.onload = function(resp){console.log(resp);};
 request.setRequestHeader('Content-Type', 'application/json');
 request.send(JSON.stringify(bench));
+
+
+$.ajax({
+  url: './api/user',
+  type: 'POST',
+  data: {
+    user: {
+      username: 'Hiro',
+      password: 'hirohiro'
+    }
+  },
+  success: function(resp){
+    console.log(resp);
+  },
+  error: function(resp){
+    console.log(resp);
+  }
+})
+
+
+$.ajax({
+  url: './api/session',
+  type: 'DELETE',
+  success: function(resp){
+    console.log(resp);
+  },
+  error: function(resp){
+    console.log(resp);
+  }
+})

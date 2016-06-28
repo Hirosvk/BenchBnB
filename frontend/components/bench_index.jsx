@@ -9,11 +9,16 @@ const BenchIndex = React.createClass({
   },
 
   componentDidMount(){
-    BenchStore.addListener(this.onStoreChange);
+    this.storeListener = BenchStore.addListener(this.onStoreChange);
     // BenchAction.fetchAllBenches();
   },
 
+  componentWillUnmount(){
+    this.storeListener.remove();
+  },
+
   onStoreChange(){
+    // debugger;
     this.setState({benches: BenchStore.all()});
   },
 

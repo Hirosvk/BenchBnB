@@ -7,15 +7,6 @@ class Bench < ActiveRecord::Base
     lng_max = [bounds["northEast"]["lng"], bounds["southWest"]["lng"]].max
     lng_min = [bounds["northEast"]["lng"], bounds["southWest"]["lng"]].min
 
-    self.connection.execute(<--SQL, lat_min, lat_max, lng_min, lng_max
-      SELECT
-        *
-      FROM
-        benches
-      WHERE
-        (lat BETWEEN ? AND ?) AND
-        (lng BETWEEN ? AND ?)
-    SQL
-
+    self.where("lat between ? and ?", lat_min, lat_max).where("lng between ? and ?", lng_min, lng_max)
   end
 end

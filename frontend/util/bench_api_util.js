@@ -1,14 +1,10 @@
-// const request = new XMLHttpRequest();
-// request.open("POST", "./api/benches", true);
-// request.onload = function(resp){console.log(resp);};
-// request.setRequestHeader('Content-Type', 'application/json');
-// request.send(JSON.stringify(bench));
+
 
 const BenchApiUtil = {
-  fetchAllBenches(successCallback) {
+  fetchAllBenches(bounds, successCallback) {
     const request = new XMLHttpRequest();
-    request.open("GET", "./api/benches", true);
-    console.log("util benchall");
+    request.open("GET", `./api/benches?bounds=${JSON.stringify(bounds)}`, true);
+
     request.onload = function(resp) {
       if (request.status >= 200 && request.status < 400){
         successCallback(JSON.parse(request.responseText));
@@ -24,6 +20,7 @@ const BenchApiUtil = {
   createBench(newBench, successCallback){
     const request = new XMLHttpRequest();
     request.open("POST", "./api/benches", true);
+
     request.onload = function(resp) {
       if (request.status >= 200 && request.status < 400){
         successCallback(JSON.parse(request.responseText));
@@ -36,7 +33,6 @@ const BenchApiUtil = {
     request.setRequestHeader('Content-Type', 'application/json');
     request.send(JSON.stringify(newBench));
   }
-
 };
 
 module.exports = BenchApiUtil;

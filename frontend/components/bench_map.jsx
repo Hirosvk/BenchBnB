@@ -2,6 +2,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const BenchStore = require('../stores/bench_store');
 const BenchAction = require('../actions/bench_action');
+const hashHistory = require('react-router').hashHistory;
 
 const BenchMap = React.createClass({
   getInitialState(){
@@ -9,7 +10,7 @@ const BenchMap = React.createClass({
   },
 
   componentDidMount(){
-    BenchStore.addListener(this.updateBenches);
+    this.storeListener = BenchStore.addListener(this.updateBenches);
 
     const mapDOMNode = ReactDOM.findDOMNode(this.refs.map);
     const mapOptions = {
@@ -19,11 +20,32 @@ const BenchMap = React.createClass({
     this.map = new google.maps.Map(mapDOMNode, mapOptions);
     // goolge.maps API is loaded on application.html.erb
     this.map.addListener('idle', this.fetchAllBenches);
+    this.map.addListener('click', this.onClick);
+  },
+
+  componentWillUnmount(){
+    this.storeListener.remove();
+  },
+
+  onClick(event){
+    console.log(event.latLng.lat());
+    let coords = {
+      lat: event.latLng.lat(),
+      lng: event.latLng.lng()
+    };
+    hashHistory.push({
+      pathname: "benches/new",
+      query: coords
+    });
   },
 
   fetchAllBenches(){
-    console.log("bench map all benches");
-    BenchAction.fetchAllBenches();
+    let rawBounds = this.map.getBounds();
+    let bounds = {
+      "northEast": rawBounds.getNorthEast(),
+      "southWest": rawBounds.getSouthWest()
+    };
+    BenchAction.fetchAllBenches(bounds);
   },
 
   updateBenches(){
@@ -48,6 +70,7 @@ const BenchMap = React.createClass({
 
 
   render(){
+    // console.log(this.refs.map instanceof HTMLElement);
     return <div className="map" ref="map" />;
   }
 });

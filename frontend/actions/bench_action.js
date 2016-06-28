@@ -3,9 +3,9 @@ const BenchApiUtil = require('../util/bench_api_util');
 const BenchConstants = require('../constants/bench_constants');
 
 const BenchAction = {
-  fetchAllBenches: function(){
+  fetchAllBenches: function(bounds){
     console.log('Bench Action fetchAll');
-    BenchApiUtil.fetchAllBenches(this.receiveAllBenches);
+    BenchApiUtil.fetchAllBenches(bounds, this.receiveAllBenches);
   },
 
   receiveAllBenches: function(benches){

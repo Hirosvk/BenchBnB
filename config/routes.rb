@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   root to: 'staticpages#index'
   namespace :api, defaults: { format: :json} do
     resources :benches
+    resource :session
+    resource :user
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
