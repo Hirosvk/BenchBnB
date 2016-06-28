@@ -33,7 +33,7 @@ const App = React.createClass({
 });
 
 const AppRouter = (
-  <Router history={hashHistory}>
+  <Router history={hashHistory} >
     <Route path='/' component={App}>
       <Route component={Search}>
         <IndexRoute component={BenchIndex} />
